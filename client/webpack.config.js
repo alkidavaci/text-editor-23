@@ -18,6 +18,37 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+      // Generates an HTML file for the application and injects the necessary script tags
+      new HtmlWebpackPlugin({
+        template: "./index.html",
+        title: "JATE",
+      }),
+
+      // Generates a service worker
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "src-sw.js",
+      }),
+
+      // Generates a manifest file for the application
+      new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
+        name: "Text Editor 23",
+        short_name: "JATE",
+        description: "Text Editor 2023",
+        background_color: '#225ca3',
+        theme_color: '#225ca3',
+        start_url: "/",
+        publicPath: "/",
+        icons: [
+          {
+            src: path.resolve("src/images/logo.png"),
+            sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+            destination: path.join("assets", "icons"),
+          },
+        ],
+      }),
 
     ],
 
